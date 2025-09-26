@@ -4,7 +4,7 @@
 
 ## Introduction
 
-### Contextualization
+### Contextualization.
 In modern software development environments, organizations face increasingly complex challenges in managing the delivery of software features across multiple development cycles and deployment windows. Software teams must regularly decide how to group and schedule features for delivery while respecting intricate dependencies between components, modules, and functionalities. This real-world scenario mirrors a classical combinatorial optimization challenge where limited resources (delivery windows, development capacity, testing environments) must be allocated efficiently while maintaining the correct execution order of interdependent tasks. The complexity intensifies when considering that features often have varying sizes, priorities, and complex precedence relationships that cannot be violated during the delivery process.
 
 ### Problem Definition
