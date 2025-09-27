@@ -4,160 +4,177 @@
 \usepackage{graphicx,url}
 \usepackage[utf8]{inputenc}
 \usepackage[brazil]{babel}
-\usepackage[latin1]{inputenc}  
+
 
      
 \sloppy
 
-\title{Instructions for Authors of SBC Conferences\\ Papers and Abstracts}
+\title{Heuristic for the Bin Packing Problem with General Precedence Constraints Applied to Software Feature Delivery Optimization}
 
-\author{Luciana P. Nedel\inst{1}, Rafael H. Bordini\inst{2}, Flávio Rech
-  Wagner\inst{1}, Jomi F. Hübner\inst{3} }
+\author{Carlos E. Aguiar\inst{1}, Pedro Saccomani\inst{1}, Rangel Á. Barroso\inst{1} }
 
 
-\address{Instituto de Informática -- Universidade Federal do Rio Grande do Sul
-  (UFRGS)\\
-  Caixa Postal 15.064 -- 91.501-970 -- Porto Alegre -- RS -- Brazil
-\nextinstitute
-  Department of Computer Science -- University of Durham\\
-  Durham, U.K.
-\nextinstitute
-  Departamento de Sistemas e Computação\\
-  Universidade Regional de Blumenal (FURB) -- Blumenau, SC -- Brazil
-  \email{\{nedel,flavio\}@inf.ufrgs.br, R.Bordini@durham.ac.uk,
-  jomi@inf.furb.br}
+\address{Departamento de Ciência da Computação \\ Universidade Federal de Minas Gerais  (UFMG) -- Belo Horizonte, MG -- Brazil
+  \email{Caduaguiar.roma@gmail.com, psaccomani15@gmail.com,
+  rangel-avila@ufmg.br}
 }
 
 \begin{document} 
 
 \maketitle
 
-\begin{abstract}
-  This meta-paper describes the style to be used in articles and short papers
-  for SBC conferences. For papers in English, you should add just an abstract
-  while for the papers in Portuguese, we also ask for an abstract in
-  Portuguese (``resumo''). In both cases, abstracts should not have more than
-  10 lines and must be in the first page of the paper.
-\end{abstract}
+% \begin{abstract}
+%   This meta-paper describes the style to be used in articles and short papers
+%   for SBC conferences. For papers in English, you should add just an abstract
+%   while for the papers in Portuguese, we also ask for an abstract in
+%   Portuguese (``resumo''). In both cases, abstracts should not have more than
+%   10 lines and must be in the first page of the paper.
+% \end{abstract}
      
-\begin{resumo} 
-  Este meta-artigo descreve o estilo a ser usado na confecção de artigos e
-  resumos de artigos para publicação nos anais das conferências organizadas
-  pela SBC. É solicitada a escrita de resumo e abstract apenas para os artigos
-  escritos em português. Artigos em inglês deverão apresentar apenas abstract.
-  Nos dois casos, o autor deve tomar cuidado para que o resumo (e o abstract)
-  não ultrapassem 10 linhas cada, sendo que ambos devem estar na primeira
-  página do artigo.
-\end{resumo}
+% \begin{resumo} 
+%   Este meta-artigo descreve o estilo a ser usado na confecção de artigos e
+%   resumos de artigos para publicação nos anais das conferências organizadas
+%   pela SBC. É solicitada a escrita de resumo e abstract apenas para os artigos
+%   escritos em português. Artigos em inglês deverão apresentar apenas abstract.
+%   Nos dois casos, o autor deve tomar cuidado para que o resumo (e o abstract)
+%   não ultrapassem 10 linhas cada, sendo que ambos devem estar na primeira
+%   página do artigo.
+% \end{resumo}
 
 
-\section{General Information}
+\section{Introduction}
+% Contextualization
+In modern software development environments, organizations face increasingly complex challenges in managing the delivery of software features across multiple development cycles and deployment windows. Software teams must regularly decide how to group and schedule features for delivery, while respecting complex dependencies between components, modules, and functionalities. This real-world scenario mirrors a classic combinatorial optimization challenge, where limited resources (delivery windows, development capacity, testing environments) must be allocated efficiently while maintaining the correct execution order of interdependent tasks. The complexity intensifies when considering that resources often have sizes, priorities, and precedence relationships that cannot be violated during the delivery process.
 
-All full papers and posters (short papers) submitted to some SBC conference,
-including any supporting documents, should be written in English or in
-Portuguese. The format paper should be A4 with single column, 3.5 cm for upper
-margin, 2.5 cm for bottsom margin and 3.0 cm for lateral margins, without
-headers or footers. The main font must be Times, 12 point nominal size, with 6
-points of space before each paragraph. Page numbers must be suppressed.
+% Problem Definition
+The Bin Packing Problem with General Precedence Constraints (BPP-GP) can be formally defined as follows: given a set of items $N = \{1,2,...,n\}$ with associated weights $w_j$, a set of identical bins with capacity $C$, subject to a set of precedence constraints between item pairs that define their partial order relationships, the objective is to pack all items into the minimum number of bins, ensuring that no bin exceeds its capacity and that all precedence relationships are respected within a bin and across bins. This optimization problem extends the classical bin packing problem by incorporating ordering dependencies that are fundamental in software development contexts.
 
-Full papers must respect the page limits defined by the conference.
-Conferences that publish just abstracts ask for \textbf{one}-page texts.
+% Problem Characterization - Complexity Class
+The Bin Packing Problem with General Precedence Constraints belongs to the class of NP-Hard optimization problems. This classification arises from the fact that even the basic bin packing problem without precedence constraints is NP-Hard, and the addition of these constraints only increases the complexity of the problem. The decision version of this problem, which asks whether there exists a feasible packing using at most $k$ bins while respecting all constraints, is NP-Complete, making it unlikely that polynomial-time exact algorithms exist to solve large instances of this problem.
 
-\section{First Page} \label{sec:firstpage}
+% Problem Characterization - Similar Problems
+Several related problems share structural similarities with BPP-GP, including the classical Bin Packing Problem (without precedence constraints), the Job Shop Scheduling Problem with precedence constraints, the Resource-Constrained Project Scheduling Problem (RCPSP), and the Knapsack Problem with Precedence Constraints. Furthermore, variants such as the Bin Packing Problem with Conflicts, where certain items cannot be placed in the same bin, and the Multidimensional Bin Packing Problem provide insights into techniques for handling constraints. The Strip Packing Problem with precedence constraints also offers relevant algorithmic approaches, particularly in the context of scheduling and resource allocation.
 
-The first page must display the paper title, the name and address of the
-authors, the abstract in English and ``resumo'' in Portuguese (``resumos'' are
-required only for papers written in Portuguese). The title must be centered
-over the whole page, in 16 point boldface font and with 12 points of space
-before itself. Author names must be centered in 12 point font, bold, all of
-them disposed in the same line, separated by commas and with 12 points of
-space after the title. Addresses must be centered in 12 point font, also with
-12 points of space after the authors' names. E-mail addresses should be
-written using font Courier New, 10 point nominal size, with 6 points of space
-before and 6 points of space after.
+%  Problem Characterization - Additional Relevant Information
+BPP-GP presents several unique features that distinguish it from standard combinatorial optimization problems. Precedence constraints create a partial ordering that can result in complex dependency graphs, potentially including parallel branches and multiple hierarchy levels. In software delivery contexts, these constraints may represent technical dependencies, business priorities, relationships between user stories, or testing requirements. The problem allows for intra-bin precedence (dependencies within the same delivery window) and inter-bin precedence (dependencies spanning multiple delivery cycles), significantly complicating the solution space and requiring sophisticated constraint propagation mechanisms.
 
-The abstract and ``resumo'' (if is the case) must be in 12 point Times font,
-indented 0.8cm on both sides. The word \textbf{Abstract} and \textbf{Resumo},
-should be written in boldface and must precede the text.
+% Motivation
+This problem deserves investigation due to its direct applicability to critical challenges in modern software engineering and project management. As software systems become increasingly complex and development teams adopt agile methodologies with frequent delivery cycles, the efficient allocation of resources to delivery windows while respecting dependencies becomes fundamental to project success. Inadequate scheduling of resources can lead to development bottlenecks, release delays, inefficient resource utilization, and increased technical debt. Furthermore, the theoretical contributions of developing effective heuristics for BPP-GP can advance the broader field of combinatorial optimization with constraints and provide insights applicable to other domains, such as supply chain management, manufacturing scheduling, and resource allocation problems.
 
-\section{CD-ROMs and Printed Proceedings}
+% Objectives
+This research aims to design, implement, and rigorously evaluate a scalable, precedence-aware heuristic for the Bin Packing Problem with General Precedence Constraints. The objective is to combine efficient precedence propagation and packing strategies to minimize the number of bins while guaranteeing feasibility for both intra-bin and inter-bin dependencies. 
 
-In some conferences, the papers are published on CD-ROM while only the
-abstract is published in the printed Proceedings. In this case, authors are
-invited to prepare two final versions of the paper. One, complete, to be
-published on the CD and the other, containing only the first page, with
-abstract and ``resumo'' (for papers in Portuguese).
+% Justification
+The justification for this work lies both in its practical relevance and in the theoretical contribution it may offer. In practice, the optimization of software resource delivery under precedence constraints addresses a real need faced by development teams, where the complexity of manual scheduling often leads to inefficiencies and delays. From a theoretical perspective, the formulation and analysis of heuristics for BPP-GP expand the body of knowledge in combinatorial optimization under complex constraints, providing new perspectives that may be applied in domains beyond software engineering, such as logistics, manufacturing, and project management. Thus, the research is justified by its ability to generate direct impact on critical engineering processes while simultaneously strengthening the academic understanding of NP-Hard problems with additional constraints.
 
-\section{Sections and Paragraphs}
+% Roadmap
+The development of this work will follow a structured roadmap in progressive steps, as follows:
+\begin{itemize}
+    \item \textbf{Literature review:} Research on BPP-GP problems, with a focus on heuristic algorithms applied to similar contexts;
+    \item \textbf{Problem definition:} Formal definition of the problem, serving as the foundation for the design of the proposed algorithm;
+    \item \textbf{Development of the heuristic algorithm:} Design of the algorithm with emphasis on mechanisms to efficiently handle precedence constraints;
+    \item \textbf{Definition of the experimental methodology:} Planning of experiments and definition of parameters such as test instance generation, selection of evaluation metrics, and choice of comparative algorithms;
+    \item \textbf{Execution of computational experiments:} Implementation and testing of the proposed heuristic algorithm on representative instances, with the goal of evaluating performance in terms of solution quality and computational efficiency, comparing it with reference results from the literature;
+    \item \textbf{Conclusions and future research directions:} Synthesis of the obtained results and final evaluation of the proposed heuristic for solving BPP-GP and its potential impact on optimizing software resource delivery. Discussion of achieved objectives and encountered limitations. For future research, potential avenues of continuation and deepening of the research will be indicated, whether through methodological improvements or applications in new scenarios.
+\end{itemize}
 
-Section titles must be in boldface, 13pt, flush left. There should be an extra
-12 pt of space before each title. Section numbering is optional. The first
-paragraph of each section should not be indented, while the first lines of
-subsequent paragraphs should be indented by 1.27 cm.
+%% Restante do código está comentado para renderizar somente a introdução %%
 
-\subsection{Subsections}
+% \section{First Page} \label{sec:firstpage}
 
-The subsection titles must be in boldface, 12pt, flush left.
+% The first page must display the paper title, the name and address of the
+% authors, the abstract in English and ``resumo'' in Portuguese (``resumos'' are
+% required only for papers written in Portuguese). The title must be centered
+% over the whole page, in 16 point boldface font and with 12 points of space
+% before itself. Author names must be centered in 12 point font, bold, all of
+% them disposed in the same line, separated by commas and with 12 points of
+% space after the title. Addresses must be centered in 12 point font, also with
+% 12 points of space after the authors' names. E-mail addresses should be
+% written using font Courier New, 10 point nominal size, with 6 points of space
+% before and 6 points of space after.
 
-\section{Figures and Captions}\label{sec:figs}
+% The abstract and ``resumo'' (if is the case) must be in 12 point Times font,
+% indented 0.8cm on both sides. The word \textbf{Abstract} and \textbf{Resumo},
+% should be written in boldface and must precede the text.
+
+% \section{CD-ROMs and Printed Proceedings}
+
+% In some conferences, the papers are published on CD-ROM while only the
+% abstract is published in the printed Proceedings. In this case, authors are
+% invited to prepare two final versions of the paper. One, complete, to be
+% published on the CD and the other, containing only the first page, with
+% abstract and ``resumo'' (for papers in Portuguese).
+
+% \section{Sections and Paragraphs}
+
+% Section titles must be in boldface, 13pt, flush left. There should be an extra
+% 12 pt of space before each title. Section numbering is optional. The first
+% paragraph of each section should not be indented, while the first lines of
+% subsequent paragraphs should be indented by 1.27 cm.
+
+% \subsection{Subsections}
+
+% The subsection titles must be in boldface, 12pt, flush left.
+
+% \section{Figures and Captions}\label{sec:figs}
 
 
-Figure and table captions should be centered if less than one line
-(Figure~\ref{fig:exampleFig1}), otherwise justified and indented by 0.8cm on
-both margins, as shown in Figure~\ref{fig:exampleFig2}. The caption font must
-be Helvetica, 10 point, boldface, with 6 points of space before and after each
-caption.
+% Figure and table captions should be centered if less than one line
+% (Figure~\ref{fig:exampleFig1}), otherwise justified and indented by 0.8cm on
+% both margins, as shown in Figure~\ref{fig:exampleFig2}. The caption font must
+% be Helvetica, 10 point, boldface, with 6 points of space before and after each
+% caption.
 
-\begin{figure}[ht]
-\centering
-\includegraphics[width=.5\textwidth]{fig1.jpg}
-\caption{A typical figure}
-\label{fig:exampleFig1}
-\end{figure}
+% \begin{figure}[ht]
+% \centering
+% \includegraphics[width=.5\textwidth]{fig1.jpg}
+% \caption{A typical figure}
+% \label{fig:exampleFig1}
+% \end{figure}
 
-\begin{figure}[ht]
-\centering
-\includegraphics[width=.3\textwidth]{fig2.jpg}
-\caption{This figure is an example of a figure caption taking more than one
-  line and justified considering margins mentioned in Section~\ref{sec:figs}.}
-\label{fig:exampleFig2}
-\end{figure}
+% \begin{figure}[ht]
+% \centering
+% \includegraphics[width=.3\textwidth]{fig2.jpg}
+% \caption{This figure is an example of a figure caption taking more than one
+%   line and justified considering margins mentioned in Section~\ref{sec:figs}.}
+% \label{fig:exampleFig2}
+% \end{figure}
 
-In tables, try to avoid the use of colored or shaded backgrounds, and avoid
-thick, doubled, or unnecessary framing lines. When reporting empirical data,
-do not use more decimal digits than warranted by their precision and
-reproducibility. Table caption must be placed before the table (see Table 1)
-and the font used must also be Helvetica, 10 point, boldface, with 6 points of
-space before and after each caption.
+% In tables, try to avoid the use of colored or shaded backgrounds, and avoid
+% thick, doubled, or unnecessary framing lines. When reporting empirical data,
+% do not use more decimal digits than warranted by their precision and
+% reproducibility. Table caption must be placed before the table (see Table 1)
+% and the font used must also be Helvetica, 10 point, boldface, with 6 points of
+% space before and after each caption.
 
-\begin{table}[ht]
-\centering
-\caption{Variables to be considered on the evaluation of interaction
-  techniques}
-\label{tab:exTable1}
-\includegraphics[width=.7\textwidth]{table.jpg}
-\end{table}
+% \begin{table}[ht]
+% \centering
+% \caption{Variables to be considered on the evaluation of interaction
+%   techniques}
+% \label{tab:exTable1}
+% \includegraphics[width=.7\textwidth]{table.jpg}
+% \end{table}
 
-\section{Images}
+% \section{Images}
 
-All images and illustrations should be in black-and-white, or gray tones,
-excepting for the papers that will be electronically available (on CD-ROMs,
-internet, etc.). The image resolution on paper should be about 600 dpi for
-black-and-white images, and 150-300 dpi for grayscale images.  Do not include
-images with excessive resolution, as they may take hours to print, without any
-visible difference in the result. 
+% All images and illustrations should be in black-and-white, or gray tones,
+% excepting for the papers that will be electronically available (on CD-ROMs,
+% internet, etc.). The image resolution on paper should be about 600 dpi for
+% black-and-white images, and 150-300 dpi for grayscale images.  Do not include
+% images with excessive resolution, as they may take hours to print, without any
+% visible difference in the result. 
 
-\section{References}
+% \section{References}
 
-Bibliographic references must be unambiguous and uniform.  We recommend giving
-the author names references in brackets, e.g. \cite{knuth:84},
-\cite{boulic:91}, and \cite{smith:99}.
+% Bibliographic references must be unambiguous and uniform.  We recommend giving
+% the author names references in brackets, e.g. \cite{knuth:84},
+% \cite{boulic:91}, and \cite{smith:99}.
 
-The references must be listed using 12 point font size, with 6 points of space
-before each reference. The first line of each reference should not be
-indented, while the subsequent should be indented by 0.5 cm.
+% The references must be listed using 12 point font size, with 6 points of space
+% before each reference. The first line of each reference should not be
+% indented, while the subsequent should be indented by 0.5 cm.
 
-\bibliographystyle{sbc}
-\bibliography{sbc-template}
+% \bibliographystyle{sbc}
+% \bibliography{sbc-template}
 
 \end{document}
