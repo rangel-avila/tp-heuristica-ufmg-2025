@@ -78,7 +78,45 @@ The development of this work will follow a structured roadmap in progressive ste
     \item \textbf{Conclusions and future research directions:} Synthesis of the obtained results and final evaluation of the proposed heuristic for solving BPP-GP and its potential impact on optimizing software resource delivery. Discussion of achieved objectives and encountered limitations. For future research, potential avenues of continuation and deepening of the research will be indicated, whether through methodological improvements or applications in new scenarios.
 \end{itemize}
 
-%% Restante do código está comentado para renderizar somente a introdução %%
+\section{Related work}
+
+\cite{kramer:17} addresses the bin packing problem with generalized precedence constraints (BPP-GP), 
+a novel generalization of the simple assembly line balancing problem and the bin packing problem 
+with precedence constraints. The computational results show that the proposed iterated local search
+algorithm with batching moves (BM-ILS) is robust and provides high-quality solutions within a 
+reasonable time, comparing well with state-of-the-art methods tailored for particular problem cases. 
+The authors conclude that their simple and flexible approach is effective, although the introduction
+of heterogeneous precedences presents new challenges for both exact and heuristic methods, 
+leaving many instances unsolved to proven optimality and suggesting avenues for future research.
+
+While the aforementioned research expands the problem's scope, the work by \cite{pereira:16} focuses 
+on creating highly efficient procedures for the bin packing problem with precedence constraints 
+(BPP-P) as originally defined. To this end, the paper proposes a heuristic based on dynamic 
+programming and an exact branch-and-bound method, incorporating several new lower bounds and dominance
+rules to improve performance. The computational results show the notable effectiveness of the 
+proposed methods, which were able to find the optimal solution for all previously unsolved ("open") 
+instances from the classic benchmark set, significantly outperforming prior approaches in terms of 
+solution quality and speed. The study concludes that the developed procedures represent the new 
+state-of-the-art, and it identifies that instances with large item weights and a low number of 
+precedence relations (low order strength) are the most challenging for the algorithm.
+
+Expanding on the application of heuristics for similar optimization problems, \cite{lalaoui:18} address 
+the Simple Assembly Line Balancing Problem of type I (SALBP-I) by proposing an adaptive metaheuristic. 
+Their approach employs a generalized simulated annealing algorithm whose parameters are dynamically 
+adjusted by a fuzzy inference system, aiming to quickly find effective solutions for rebalancing 
+production lines in response to factors like demand fluctuation. The paper's conclusion is based on 
+the performance analysis of their fuzzy simulated annealing method on a well-known benchmark dataset 
+for SALBP-I, demonstrating its applicability in minimizing the number of workstations for a given 
+cycle time.
+
+The existing literature provides a range of powerful methods for the Bin Packing Problem with Generalized 
+Precedence Constraints (BPP-GP) and its variants, including effective metaheuristics like the Iterated 
+Local Search (ILS) by \cite{kramer:17} and highly specialized exact procedures for related problems 
+as seen in \cite{pereira:16}. However, a gap remains, as purely heuristic approaches do not guarantee optimality, 
+while exact methods struggle with the scalability and complexity introduced by generalized precedences. 
+This project aims to % precisamos discutir o que será feito de novo, considerando o (Kramer ?) como baseline?
+
+%% Restante do código está comentado para renderizar somente até a parte feita %%
 
 % \section{First Page} \label{sec:firstpage}
 
