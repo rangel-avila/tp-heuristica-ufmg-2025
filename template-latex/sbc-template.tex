@@ -1,15 +1,22 @@
 \documentclass[12pt]{article}
-
+\usepackage[english]{babel}
 \usepackage{sbc-template}
 \usepackage{graphicx,url}
 \usepackage[utf8]{inputenc}
-\usepackage[brazil]{babel}
-
-
+\usepackage[ruled,vlined]{algorithm2e}
+\DontPrintSemicolon
+\SetAlgoLined
+\SetKwFunction{BMILS}{BM-ILS}
+\SetKwFunction{Preprocessing}{\(PreProcessing\)}
+\SetKwFunction{ComputeBounds}{\(ComputeBounds\)}
+\SetKwFunction{ConstructInitialSolution}{\(ConstructInitialSolution\)}
+\SetKwFunction{BMLS}{\(BM-LS\)}
+\SetKwFunction{DestroyShrinkRepair}{\(DestroyShrinkRepair\)}
+\SetKwProg{Fn}{function}{:}{}
      
 \sloppy
 
-\title{Heuristic for the Bin Packing Problem with General Precedence Constraints Applied to Software Feature Delivery Optimization}
+\title{A GRASP based approach for the Bin Packing Problem with General Precedence Constraints}
 
 \author{Carlos E. Aguiar\inst{1}, Pedro Saccomani\inst{1}, Rangel Á. Barroso\inst{1} }
 
@@ -44,22 +51,36 @@
 
 \section{Introduction}
 % Contextualization
-In modern software development environments, organizations face increasingly complex challenges in managing the delivery of software features across multiple development cycles and deployment windows. Software teams must regularly decide how to group and schedule features for delivery, while respecting complex dependencies between components, modules, and functionalities. This real-world scenario mirrors a classic combinatorial optimization challenge, where limited resources (delivery windows, development capacity, testing environments) must be allocated efficiently while maintaining the correct execution order of interdependent tasks. The complexity intensifies when considering that resources often have sizes, priorities, and precedence relationships that cannot be violated during the delivery process.
+In modern software development environments, organizations face increasingly complex challenges in managing the delivery of software features across multiple development cycles and deployment windows.
+
+Software teams must regularly decide how to group and schedule features for delivery, while respecting complex dependencies between components, modules, and functionalities. This real-world scenario mirrors a classic combinatorial optimization challenge, where limited resources (delivery windows, development capacity, testing environments) must be allocated efficiently while maintaining the correct execution order of interdependent tasks.
+
+The complexity intensifies when considering that resources often have sizes, priorities, and precedence relationships that cannot be violated during the delivery process.
 
 % Problem Definition
-The Bin Packing Problem with General Precedence Constraints (BPP-GP) can be formally defined as follows: given a set of items $N = \{1,2,...,n\}$ with associated weights $w_j$, a set of identical bins with capacity $C$, subject to a set of precedence constraints between item pairs that define their partial order relationships, the objective is to pack all items into the minimum number of bins, ensuring that no bin exceeds its capacity and that all precedence relationships are respected within a bin and across bins. This optimization problem extends the classical bin packing problem by incorporating ordering dependencies that are fundamental in software development contexts.
+The Bin Packing Problem with General Precedence Constraints (BPP-GP) can be formally defined as follows: given a set of items $N = \{1,2,...,n\}$ with associated weights $w_j$, a set of identical bins with capacity $C$, subject to a set of precedence constraints between item pairs that define their partial order relationships, the objective is to pack all items into the minimum number of bins, ensuring that no bin exceeds its capacity and that all precedence relationships are respected within a bin and across bins.
+
+This optimization problem extends the classical bin packing problem by incorporating ordering dependencies that are fundamental in software development contexts.
 
 % Problem Characterization - Complexity Class
-The Bin Packing Problem with General Precedence Constraints belongs to the class of NP-Hard optimization problems. This classification arises from the fact that even the basic bin packing problem without precedence constraints is NP-Hard, and the addition of these constraints only increases the complexity of the problem. The decision version of this problem, which asks whether there exists a feasible packing using at most $k$ bins while respecting all constraints, is NP-Complete, making it unlikely that polynomial-time exact algorithms exist to solve large instances of this problem.
+The Bin Packing Problem with General Precedence Constraints belongs to the class of NP-Hard optimization problems. This classification arises from the fact that even the basic bin packing problem without precedence constraints is NP-Hard, and the addition of these constraints only allows for the description of more expressive problems.
+
+The decision version of this problem, which asks whether there exists a feasible packing using at most $k$ bins while respecting all constraints, is NP-Complete, making it unlikely that polynomial-time exact algorithms exist to solve large instances of this problem.
 
 % Problem Characterization - Similar Problems
-Several related problems share structural similarities with BPP-GP, including the classical Bin Packing Problem (without precedence constraints), the Job Shop Scheduling Problem with precedence constraints, the Resource-Constrained Project Scheduling Problem (RCPSP), and the Knapsack Problem with Precedence Constraints. Furthermore, variants such as the Bin Packing Problem with Conflicts, where certain items cannot be placed in the same bin, and the Multidimensional Bin Packing Problem provide insights into techniques for handling constraints. The Strip Packing Problem with precedence constraints also offers relevant algorithmic approaches, particularly in the context of scheduling and resource allocation.
+Several related problems share structural similarities with BPP-GP, including the classical Bin Packing Problem (without precedence constraints), the Job Shop Scheduling Problem with precedence constraints, the Resource-Constrained Project Scheduling Problem (RCPSP), and the Knapsack Problem with Precedence Constraints.
+
+Furthermore, variants such as the Bin Packing Problem with Conflicts, where certain items cannot be placed in the same bin, and the Multidimensional Bin Packing Problem provide insights into techniques for handling constraints.
+
+The Strip Packing Problem with precedence constraints also offers relevant algorithmic approaches, particularly in the context of scheduling and resource allocation.
 
 %  Problem Characterization - Additional Relevant Information
 BPP-GP presents several unique features that distinguish it from standard combinatorial optimization problems. Precedence constraints create a partial ordering that can result in complex dependency graphs, potentially including parallel branches and multiple hierarchy levels. In software delivery contexts, these constraints may represent technical dependencies, business priorities, relationships between user stories, or testing requirements. The problem allows for intra-bin precedence (dependencies within the same delivery window) and inter-bin precedence (dependencies spanning multiple delivery cycles), significantly complicating the solution space and requiring sophisticated constraint propagation mechanisms.
 
 % Motivation
-This problem deserves investigation due to its direct applicability to critical challenges in modern software engineering and project management. As software systems become increasingly complex and development teams adopt agile methodologies with frequent delivery cycles, the efficient allocation of resources to delivery windows while respecting dependencies becomes fundamental to project success. Inadequate scheduling of resources can lead to development bottlenecks, release delays, inefficient resource utilization, and increased technical debt. Furthermore, the theoretical contributions of developing effective heuristics for BPP-GP can advance the broader field of combinatorial optimization with constraints and provide insights applicable to other domains, such as supply chain management, manufacturing scheduling, and resource allocation problems.
+This problem deserves investigation due to its direct applicability to critical challenges in modern software engineering and project management. As software systems become increasingly complex and development teams adopt agile methodologies with frequent delivery cycles, the efficient allocation of resources to delivery windows while respecting dependencies becomes fundamental to project success. Inadequate scheduling of resources can lead to development bottlenecks, release delays, inefficient resource utilization, and increased technical debt.
+
+Furthermore, the investigation of a meta-heuristic based approach for such problem can advance the broader field of combinatorial optimization with constraints and provide insights applicable to other domains, such as supply chain management, manufacturing scheduling, and resource allocation problems.
 
 % Objectives
 This research aims to design, implement, and rigorously evaluate a scalable, precedence-aware heuristic for the Bin Packing Problem with General Precedence Constraints. The objective is to combine efficient precedence propagation and packing strategies to minimize the number of bins while guaranteeing feasibility for both intra-bin and inter-bin dependencies. 
@@ -80,18 +101,11 @@ The development of this work will follow a structured roadmap in progressive ste
 
 \section{Related work}
 
-\cite{kramer:17} addresses the bin packing problem with generalized precedence constraints (BPP-GP), 
-a novel generalization of the simple assembly line balancing problem and the bin packing problem 
-with precedence constraints. The computational results show that the proposed iterated local search
-algorithm with batching moves (BM-ILS) is robust and provides high-quality solutions within a 
-reasonable time, comparing well with state-of-the-art methods tailored for particular problem cases. 
-The authors conclude that their simple and flexible approach is effective, although the introduction
-of heterogeneous precedences presents new challenges for both exact and heuristic methods, 
-leaving many instances unsolved to proven optimality and suggesting avenues for future research.
+The Bin Packing Problem with Precedence Constraints (BPP-P) can be can be seen as an extension to the well known Bin Packing Problem in order to incorporate precedence constraints. A BPP-P instance is described by a set of items \(N = {1, 2, \dots, n}\), with non-negative weights and a set of bins \(M = {1, 2, \dots, m}\), each with capacity \(C\). In addition to that, in the set of items, there is also a \textbf{precedence} relation. The goal is to pack all items in the bins respecting the capacity and the precedence: items with less precedence must be packed into lower numbered bins.
 
-While the aforementioned research expands the problem's scope, the work by \cite{pereira:16} focuses 
-on creating highly efficient procedures for the bin packing problem with precedence constraints 
-(BPP-P) as originally defined. To this end, the paper proposes a heuristic based on dynamic 
+ A solution to this problem was introduced in the work of \cite{dell2012bin}. They consider different, independent approaches: A branch-and-bound procedure, a greedy constructive heuristic (first fit), together with a local search procedure, and also a \textit{Variable Neighborhood Search}.
+
+The work by \cite{pereira:16} proposes a heuristic based on dynamic 
 programming and an exact branch-and-bound method, incorporating several new lower bounds and dominance
 rules to improve performance. The computational results show the notable effectiveness of the 
 proposed methods, which were able to find the optimal solution for all previously unsolved ("open") 
@@ -99,6 +113,11 @@ instances from the classic benchmark set, significantly outperforming prior appr
 solution quality and speed. The study concludes that the developed procedures represent the new 
 state-of-the-art, and it identifies that instances with large item weights and a low number of 
 precedence relations (low order strength) are the most challenging for the algorithm.
+
+Later, the work of \cite{kramer:17} proposes an extension of this problem, the Bin Packing Problem with \textbf{General} precedence constraints, which is the topic of interest of our research project. This problem further generalizes the BPP-P by introducing weighted precedences: Each precedence relation between items \(a\) and \(b\) is described by a tuple \((a, b)\) with an associated integer \(t\), the goal is to have \(i_a - i_b \geq t\), where \(i_a\) and \(i_b\) are the bins where \(a, b\) are inserted. This work also introduces a simple algorithm, based on the \textit{Iterated Local Search} procedure. Using a set of constructive heuristics to build an initial solution that are then refined. The computational results show that the proposed method, is robust and provides high-quality solutions within a 
+reasonable time, comparing well with state-of-the-art methods tailored for particular problem cases. The authors conclude that their simple and flexible approach is effective, although the introduction
+of heterogeneous precedences presents new challenges for both exact and heuristic methods, 
+leaving many instances unsolved to proven optimality and suggesting avenues for future research.
 
 Expanding on the application of heuristics for similar optimization problems, \cite{lalaoui:18} address 
 the Simple Assembly Line Balancing Problem of type I (SALBP-I) by proposing an adaptive metaheuristic. 
@@ -109,13 +128,69 @@ the performance analysis of their fuzzy simulated annealing method on a well-kno
 for SALBP-I, demonstrating its applicability in minimizing the number of workstations for a given 
 cycle time.
 
-The existing literature provides a range of powerful methods for the Bin Packing Problem with Generalized 
+In conclusion, the existing literature provides a range of powerful methods for the Bin Packing Problem with Generalized 
 Precedence Constraints (BPP-GP) and its variants, including effective metaheuristics like the Iterated 
 Local Search (ILS) by \cite{kramer:17} and highly specialized exact procedures for related problems 
-as seen in \cite{pereira:16}. However, a gap remains, as purely heuristic approaches do not guarantee optimality, 
+as seen in\cite{pereira:16}. However, a gap remains, as purely heuristic approaches do not guarantee optimality, 
 while exact methods struggle with the scalability and complexity introduced by generalized precedences. 
+
 This project aims to % precisamos discutir o que será feito de novo, considerando o (Kramer ?) como baseline?
 
+\newpage
+\section{Methodology}
+
+In this work, we will implement a GRASP approach which uses ideas from the work of \cite{kramer:17}. We will use this same study as our control method. The authors of this study propose an algorithm based on Iterated local search, as presented below:
+
+\begin{algorithm}[H]
+  \footnotesize
+\Fn{\BMILS{$Instance$}}{
+    $ImprovedInstance \leftarrow$ \Preprocessing{$Instance$}\;
+    $LB \leftarrow$ \ComputeBounds{$ImprovedInstance$}\;
+    \tcc*[h]{Construct first solution}\;
+    $x_{incumbent} \leftarrow$ \ConstructInitialSolution{$ImprovedInstance$}\;
+    $x_{best} \leftarrow x_{incumbent}$\;
+    \Repeat{$z(x_{best}) = LB$ \textbf{or} Timeout()}{
+      \tcc*[h]{Intensification using batch of moves}\;
+        $x_{incumbent} \leftarrow$ \BMLS{$x_{incumbent}$} 
+        \If{$z(x_{incumbent}) < z(x_{best})$}{
+            $x_{best} \leftarrow x_{incumbent}$\;
+        }
+        $\rho \leftarrow random(1, K\_MAX(ImprovedInstance))$\;
+        $x_{incumbent} \leftarrow$ \DestroyShrinkRepair{$x_{incumbent}, \rho$} \tcp*[r]{Diversification}
+    }
+    \Return{$x_{best}$}\;
+}
+\caption{Control Metaheuristic}
+\end{algorithm}
+
+This algorithm is comprised of three main phases:
+\begin{enumerate}
+  \item Pre-Processing and lower-bound computation: This phase contributes to a speed-up in the convergence of the algorithm. They adapt the procedures presented in \cite{dell2012bin}.
+  \item Initial Solution Computation: The procedure employ two independent \textbf{greedy constructive} heuristics and a linear integer programming approach. At the end, the best solution is selected.
+  \item Local Search: The goal of this phase is to refine the initial solution either until we reach a fixed timeout or reach the lower bound. 
+\end{enumerate}
+
+In our work, we plan to construct a GRASP based approach derived from this prior work. Each iteration of the GRASP metaheuristic contains two main steps:
+\begin{itemize}
+  \item Construction of initial solutions: In this step, a feasible solution is built using a \textbf{randomized adaptative greedy} algorithm.
+  \item Local-Search step: This initial solution is refined until a local optima is reached. 
+ \end{itemize}
+
+ This randomized greedy algorithm is controlled by a parameter \(\alpha\) which defines the compromise between search exploitation and exploration. In our work, this \(\alpha\) will be adaptative, that is, its value will be tuned through the procedure.
+
+ In the constructive step, we plan to adapt the two greedy constructive heuristics employed by \cite{kramer:17} to be randomized in order to be incorporated into a GRASP step. We will also explore other possible heuristics that could bring benefits to our approach. In the local search step, we plan to use the local search (BM-LS) algorithm also proposed by \cite{kramer:17}.
+
+ We hope that our work could produce at least comparable solutions to \cite{kramer:17} given the same execution times, and in some cases even better solutions to some benchmarks, due to the explorative/adaptative factor in GRASP.
+ 
+ \subsection{Evaluation}
+
+ For this phase, we will utilize already propose benchmarks sets for this problem. The work of \cite{kramer:17} also expands a standard benchmark set proposed by \cite{otto2013systematic}. We plan to ask the authors of such work in order to use this extended set.
+
+ During our work, we will employ some intermediate evaluation steps, to decide how we should handle the use of the constructive heuristics, trying to answer the question: ``Should we be inspired by \cite{kramer:17} and also run both, selecting the better result or should we also employ some randomness in this selection?''.
+
+ After completing this implementation phase, we will compare our approach with stablished techniques in the literature, such as...
+
+ % Posso voltar nisso, mas talvez vocês tenham ideias melhores de como comparar melhor e de forma rigorosa.  
 %% Restante do código está comentado para renderizar somente até a parte feita %%
 
 % \section{First Page} \label{sec:firstpage}
@@ -212,7 +287,7 @@ This project aims to % precisamos discutir o que será feito de novo, consideran
 % before each reference. The first line of each reference should not be
 % indented, while the subsequent should be indented by 0.5 cm.
 
-% \bibliographystyle{sbc}
-% \bibliography{sbc-template}
+\bibliographystyle{sbc}
+\bibliography{sbc-template}
 
 \end{document}
