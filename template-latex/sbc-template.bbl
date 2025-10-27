@@ -1,20 +1,38 @@
 \begin{thebibliography}{}
 
-\bibitem[Boulic and Renault 1991]{boulic:91}
-Boulic, R. and Renault, O. (1991).
-\newblock 3d hierarchies for animation.
-\newblock In Magnenat-Thalmann, N. and Thalmann, D., editors, {\em New Trends
-  in Animation and Visualization}. John Wiley {\&} Sons ltd.
+\bibitem[Dell'Amico et~al. 2012]{dell2012bin}
+Dell'Amico, M., D{\'\i}az, J. C.~D., and Iori, M. (2012).
+\newblock The bin packing problem with precedence constraints.
+\newblock {\em Operations Research}, 60(6):1491--1504.
 
-\bibitem[Knuth 1984]{knuth:84}
-Knuth, D.~E. (1984).
-\newblock {\em The {\TeX} Book}.
-\newblock Addison-Wesley, 15th edition.
+\bibitem[Kramer et~al. 2017]{kramer:17}
+Kramer, R., Dell'Amico, M., and Iori, M. (2017).
+\newblock A batching-move iterated local search algorithm for the bin packing
+  problem with generalized precedence constraints.
+\newblock {\em International Journal of Production Research},
+  55(21):6288--6304.
 
-\bibitem[Smith and Jones 1999]{smith:99}
-Smith, A. and Jones, B. (1999).
-\newblock On the complexity of computing.
-\newblock In Smith-Jones, A.~B., editor, {\em Advances in Computer Science},
-  pages 555--566. Publishing Press.
+\bibitem[Lalaoui and El~Afia 2018]{lalaoui:18}
+Lalaoui, M. and El~Afia, A. (2018).
+\newblock A fuzzy generalized simulated annealing for a simple assembly line
+  balancing problem.
+\newblock {\em IFAC-PapersOnLine}, 51(32):600--605.
+
+\bibitem[Layeb and Chenche 2012]{layeb:12}
+Layeb, A. and Chenche, S. (2012).
+\newblock A novel grasp algorithm for solving the bin packing problem.
+\newblock {\em International Journal of Information Engineering and Electronic
+  Business}, 4(2):8.
+
+\bibitem[Otto et~al. 2013]{otto:13}
+Otto, A., Otto, C., and Scholl, A. (2013).
+\newblock Systematic data generation and test design for solution algorithms on
+  the example of salbpgen for assembly line balancing.
+\newblock {\em European Journal of Operational Research}, 228(1):33--45.
+
+\bibitem[Pereira 2016]{pereira:16}
+Pereira, J. (2016).
+\newblock Procedures for the bin packing problem with precedence constraints.
+\newblock {\em European Journal of Operational Research}, 250(3):794--806.
 
 \end{thebibliography}

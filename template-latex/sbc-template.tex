@@ -83,7 +83,7 @@ This problem deserves investigation due to its direct applicability to critical 
 Furthermore, the investigation of a meta-heuristic based approach for such problem can advance the broader field of combinatorial optimization with constraints and provide insights applicable to other domains, such as supply chain management, manufacturing scheduling, and resource allocation problems.
 
 % Objectives
-This research aims to design, implement, and rigorously evaluate a scalable, precedence-aware heuristic for the Bin Packing Problem with General Precedence Constraints. The objective is to combine efficient precedence propagation and packing strategies to minimize the number of bins while guaranteeing feasibility for both intra-bin and inter-bin dependencies. 
+This research builds upon the baseline methodology proposed by \cite{kramer:17} for the Bin Packing Problem with General Precedence Constraints (BPP-GP). The original approach provides a structured framework for addressing precedence-aware packing through iterative local search techniques. In this work, we take this baseline as a starting point and extend it by implementing a GRASP-based metaheuristic, aiming to enhance the efficiency of precedence propagation and packing strategies. The objective remains to minimize the number of bins while ensuring feasibility with respect to both intra-bin and inter-bin dependencies, leveraging the strengths of the baseline while exploring improvements through the GRASP methodology.
 
 % Justification
 The justification for this work lies both in its practical relevance and in the theoretical contribution it may offer. In practice, the optimization of software resource delivery under precedence constraints addresses a real need faced by development teams, where the complexity of manual scheduling often leads to inefficiencies and delays. From a theoretical perspective, the formulation and analysis of heuristics for BPP-GP expand the body of knowledge in combinatorial optimization under complex constraints, providing new perspectives that may be applied in domains beyond software engineering, such as logistics, manufacturing, and project management. Thus, the research is justified by its ability to generate direct impact on critical engineering processes while simultaneously strengthening the academic understanding of NP-Hard problems with additional constraints.
@@ -91,19 +91,30 @@ The justification for this work lies both in its practical relevance and in the 
 % Roadmap
 The development of this work will follow a structured roadmap in progressive steps, as follows:
 \begin{itemize}
-    \item \textbf{Literature review:} Research on BPP-GP problems, with a focus on heuristic algorithms applied to similar contexts;
-    \item \textbf{Problem definition:} Formal definition of the problem, serving as the foundation for the design of the proposed algorithm;
-    \item \textbf{Development of the heuristic algorithm:} Design of the algorithm with emphasis on mechanisms to efficiently handle precedence constraints;
-    \item \textbf{Definition of the experimental methodology:} Planning of experiments and definition of parameters such as test instance generation, selection of evaluation metrics, and choice of comparative algorithms;
-    \item \textbf{Execution of computational experiments:} Implementation and testing of the proposed heuristic algorithm on representative instances, with the goal of evaluating performance in terms of solution quality and computational efficiency, comparing it with reference results from the literature;
-    \item \textbf{Conclusions and future research directions:} Synthesis of the obtained results and final evaluation of the proposed heuristic for solving BPP-GP and its potential impact on optimizing software resource delivery. Discussion of achieved objectives and encountered limitations. For future research, potential avenues of continuation and deepening of the research will be indicated, whether through methodological improvements or applications in new scenarios.
+  \item \textbf{Literature review:} Investigation of the BPP-GP problem and related combinatorial optimization problems, with emphasis on metaheuristic strategies previously applied in similar contexts, including the baseline proposed by \cite{kramer:17};
+  \item \textbf{Problem definition:} Formal and computational description of the BPP-GP, highlighting its constraints, objectives, and relevance to resource allocation and scheduling problems;
+  \item \textbf{Development of the metaheuristic algorithm:} Design and implementation of a new metaheuristic approach to replace or extend the baseline method proposed in \cite{kramer:17}, aiming to improve solution quality and robustness. Particular attention will be given to mechanisms that effectively manage precedence constraints;
+  \item \textbf{Definition of the experimental methodology:} Establishment of the experimental protocol, including test instance selection or generation, parameter tuning strategies, performance metrics, and reference algorithms for comparison;
+  \item \textbf{Execution of computational experiments:} Implementation, execution, and evaluation of the proposed metaheuristic on benchmark instances. The results will be analyzed in terms of computational efficiency, convergence behavior, and quality of the obtained solutions, with comparisons to baseline and state-of-the-art methods;
+  \item \textbf{Conclusions and future research directions:} Summary of the main findings and assessment of the proposed metaheuristic’s effectiveness in solving the BPP-GP. Limitations will be discussed, and perspectives for future work will be outlined, such as algorithmic refinements, hybridizations with other techniques, or applications to extended problem variants.
 \end{itemize}
 
+\newpage
 \section{Related work}
 
 The Bin Packing Problem with Precedence Constraints (BPP-P) can be can be seen as an extension to the well known Bin Packing Problem in order to incorporate precedence constraints. A BPP-P instance is described by a set of items \(N = {1, 2, \dots, n}\), with non-negative weights and a set of bins \(M = {1, 2, \dots, m}\), each with capacity \(C\). In addition to that, in the set of items, there is also a \textbf{precedence} relation. The goal is to pack all items in the bins respecting the capacity and the precedence: items with less precedence must be packed into lower numbered bins.
 
- A solution to this problem was introduced in the work of \cite{dell2012bin}. They consider different, independent approaches: A branch-and-bound procedure, a greedy constructive heuristic (first fit), together with a local search procedure, and also a \textit{Variable Neighborhood Search}.
+ A solution to this problem was introduced in the work of \cite{dell2012bin}. They consider different, independent approaches: 
+ A branch-and-bound procedure, a greedy constructive heuristic (first fit), together with a local search procedure, and also a 
+ \textit{Variable Neighborhood Search}.
+
+ Focusing on the classic problem in the same year, the work by \cite{layeb:12} addresses the one-dimensional Bin Packing Problem (1-BPP), 
+ the simplest version of the problem. The authors propose a new approach based on the GRASP (Greedy Randomized Adaptive Search Procedure) 
+ meta-heuristic. The methodology is implemented in two phases: the first is a construction phase that uses a new randomized greedy heuristic, 
+ notable for being a hybrid between the First Fit (FF) and Best Fit (BF) heuristics; the second phase consists of a local search based on 
+ the Tabu Search (TS) algorithm, used to refine and improve the solution found in the first phase. The experimental results, conducted on 
+ benchmark instances (easy, medium, and hard), demonstrate that the proposed GRASP approach significantly outperforms the simple greedy 
+ heuristic and achieving results very close to the best-known solutions.
 
 The work by \cite{pereira:16} proposes a heuristic based on dynamic 
 programming and an exact branch-and-bound method, incorporating several new lower bounds and dominance
@@ -114,7 +125,7 @@ solution quality and speed. The study concludes that the developed procedures re
 state-of-the-art, and it identifies that instances with large item weights and a low number of 
 precedence relations (low order strength) are the most challenging for the algorithm.
 
-Later, the work of \cite{kramer:17} proposes an extension of this problem, the Bin Packing Problem with \textbf{General} precedence constraints, which is the topic of interest of our research project. This problem further generalizes the BPP-P by introducing weighted precedences: Each precedence relation between items \(a\) and \(b\) is described by a tuple \((a, b)\) with an associated integer \(t\), the goal is to have \(i_a - i_b \geq t\), where \(i_a\) and \(i_b\) are the bins where \(a, b\) are inserted. This work also introduces a simple algorithm, based on the \textit{Iterated Local Search} procedure. Using a set of constructive heuristics to build an initial solution that are then refined. The computational results show that the proposed method, is robust and provides high-quality solutions within a 
+Later, the work of \cite{kramer:17} proposes an extension of this problem, the Bin Packing Problem with general precedence constraints, which is the topic of interest of our research project. This problem further generalizes the BPP-P by introducing weighted precedences: Each precedence relation between items \(a\) and \(b\) is described by a tuple \((a, b)\) with an associated integer \(t\), the goal is to have \(i_a - i_b \geq t\), where \(i_a\) and \(i_b\) are the bins where \(a, b\) are inserted. This work also introduces a simple algorithm, based on the \textit{Iterated Local Search} procedure. Using a set of constructive heuristics to build an initial solution that are then refined. The computational results show that the proposed method, is robust and provides high-quality solutions within a 
 reasonable time, comparing well with state-of-the-art methods tailored for particular problem cases. The authors conclude that their simple and flexible approach is effective, although the introduction
 of heterogeneous precedences presents new challenges for both exact and heuristic methods, 
 leaving many instances unsolved to proven optimality and suggesting avenues for future research.
@@ -128,13 +139,14 @@ the performance analysis of their fuzzy simulated annealing method on a well-kno
 for SALBP-I, demonstrating its applicability in minimizing the number of workstations for a given 
 cycle time.
 
-In conclusion, the existing literature provides a range of powerful methods for the Bin Packing Problem with Generalized 
-Precedence Constraints (BPP-GP) and its variants, including effective metaheuristics like the Iterated 
-Local Search (ILS) by \cite{kramer:17} and highly specialized exact procedures for related problems 
-as seen in\cite{pereira:16}. However, a gap remains, as purely heuristic approaches do not guarantee optimality, 
-while exact methods struggle with the scalability and complexity introduced by generalized precedences. 
+The existing literature presents robust methods for the Bin Packing Problem with Generalized Precedence Constraints (BPP-GP) and its variants.
+ Notably, \cite{kramer:17} proposed an effective baseline method for the BPP-GP based on Iterated Local Search (ILS). Concurrently, other 
+ metaheuristics have demonstrated great success on similar problems, such as GRASP, which was effectively applied by \cite{layeb:12} to the 
+ classic 1-BPP. While the ILS approach from \cite{kramer:17} serves as an established benchmark, the success of GRASP in combinatorial 
+ optimization motivates its application to the BPP-GP.
 
-This project aims to % precisamos discutir o que será feito de novo, considerando o (Kramer ?) como baseline?
+This project aims to extend the baseline method proposed in \cite{kramer:17} by developing and integrating an adapted GRASP metaheuristic, 
+which will replace the original ILS procedure to explore a new solution pathway for this complex problem.
 
 \newpage
 \section{Methodology}
@@ -184,13 +196,69 @@ In our work, we plan to construct a GRASP based approach derived from this prior
  
  \subsection{Evaluation}
 
- For this phase, we will utilize already propose benchmarks sets for this problem. The work of \cite{kramer:17} also expands a standard benchmark set proposed by \cite{otto2013systematic}. We plan to ask the authors of such work in order to use this extended set.
+ For this phase, we will utilize already propose benchmarks sets for this problem. The work of \cite{kramer:17} also expands a standard benchmark set proposed by \cite{otto:13}. We plan to ask the authors of such work in order to use this extended set.
 
  During our work, we will employ some intermediate evaluation steps, to decide how we should handle the use of the constructive heuristics, trying to answer the question: ``Should we be inspired by \cite{kramer:17} and also run both, selecting the better result or should we also employ some randomness in this selection?''.
 
- After completing this implementation phase, we will compare our approach with stablished techniques in the literature, such as...
+ After completing this implementation phase, we will compare our approach with established techniques in the literature, such as the Iterated Local Search method proposed by \cite{kramer:17} and other state-of-the-art metaheuristics for the BPP-GP problem. The comparison will focus on both solution quality and computational efficiency.
 
- % Posso voltar nisso, mas talvez vocês tenham ideias melhores de como comparar melhor e de forma rigorosa.  
+To ensure a rigorous evaluation, we will adopt the following methodology:
+\begin{itemize}
+\item \textbf{Performance metrics:} We will consider multiple measures of solution quality, including the number of bins used, average gap to 
+the known lower bounds, and the distribution of solution values across multiple runs. Computational efficiency will be assessed through CPU 
+time, number of iterations, and convergence behavior.
+\item \textbf{Statistical analysis:} To account for the stochastic nature of GRASP, each experiment will be repeated multiple times 
+(e.g., 10 independent runs), and results will be statistically analyzed. Metrics such as mean, standard deviation, and confidence intervals 
+will be reported.
+\item \textbf{Benchmark instances:} Experiments will be conducted on standard benchmark sets, including the extended set from 
+\cite{kramer:17} and the original set from \cite{otto:13}. Instances will cover a wide range of sizes and complexity levels to assess the 
+scalability and robustness of the algorithm.
+\item \textbf{Parameter tuning:} Sensitivity analysis will be conducted for key algorithmic parameters, particularly the adaptive \(\alpha\) 
+controlling the randomized greedy construction, to identify configurations that maximize performance.
+\item \textbf{Ablation studies:} To understand the contribution of each component of the GRASP approach (e.g., randomized constructive 
+heuristics, BM-LS local search, adaptive \(\alpha\)), we will perform ablation experiments by selectively removing or 
+modifying components and observing their impact on solution quality and convergence.
+\end{itemize}
+
+This evaluation framework aims to provide a thorough and fair comparison between our proposed GRASP metaheuristic and existing methods, 
+highlighting potential improvements in solution quality, robustness, and computational efficiency. By combining detailed performance metrics 
+with statistical analysis and controlled experiments, we aim to draw rigorous conclusions about the effectiveness of the proposed approach for 
+the BPP-GP problem.
+
+ % Depois seria bom dar uma revisada no que coloquei, mas achei justo (talvez algumas coisas dê mt trabalho, aí cortamos posteriormente)
+ % Ver também se está razoável com o que ele pede no roteiro
+
+\newpage
+\section{Schedule}
+
+To ensure a structured and timely execution of this research, the project has been divided into distinct stages, each with defined tasks, 
+deadlines, and assigned responsibilities. Table~\ref{tab:schedule} presents the detailed schedule, including the duration of each stage 
+and the collaborators responsible for its completion. This structured timeline provides a clear roadmap for implementing the baseline, 
+developing the proposed GRASP metaheuristic, conducting experiments, analyzing results, and preparing the final deliverables.
+
+% Cronograma foi feito para encaixar nos 28-30 dias que temos. As tasks coloquei aleatoriamente, só para preencher a tabela
+
+\begin{table}[ht]
+\caption{Project Schedule and Responsibilities}
+\label{tab:schedule}
+\begin{tabular}{clccc}
+\hline
+\textbf{Stage} & \textbf{Task} & \textbf{Deadline} & \textbf{Duration} & \textbf{Responsible} \\ \hline
+1 & Review and Planning & 27--29 Oct & 3 days & Rangel \\
+2 & Baseline Implementation & 30 Oct--2 Nov & 4 days & Carlos \\
+3 & New Implementation & 3--7 Nov & 5 days & Carlos \\
+4 & Integration and Debugging & 8--10 Nov & 3 days & Carlos, Pedro \\
+5 & Execution of Experiments & 11--14 Nov & 4 days & Pedro \\
+6 & Results Analysis & 15--17 Nov & 3 days & Pedro, Rangel \\
+7 & Article Writing & 18--22 Nov & 5 days & Rangel \\
+8 & Presentation and Final Review & 23--25 Nov & 3 days & All \\ \hline
+\multicolumn{2}{l}{\textbf{Total}} & & \textbf{30 days} & \\ \hline
+\end{tabular}
+\end{table}
+
+
+
+
 %% Restante do código está comentado para renderizar somente até a parte feita %%
 
 % \section{First Page} \label{sec:firstpage}
@@ -259,15 +327,6 @@ In our work, we plan to construct a GRASP based approach derived from this prior
 % reproducibility. Table caption must be placed before the table (see Table 1)
 % and the font used must also be Helvetica, 10 point, boldface, with 6 points of
 % space before and after each caption.
-
-% \begin{table}[ht]
-% \centering
-% \caption{Variables to be considered on the evaluation of interaction
-%   techniques}
-% \label{tab:exTable1}
-% \includegraphics[width=.7\textwidth]{table.jpg}
-% \end{table}
-
 % \section{Images}
 
 % All images and illustrations should be in black-and-white, or gray tones,
