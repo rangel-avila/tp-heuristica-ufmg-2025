@@ -1,14 +1,15 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abordagem GRASP para BPP-GP</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Merriweather:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Abordagem GRASP para BPP-GP</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Merriweather:wght@300;400;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+<style>
         /* CORE SETUP */
         * { box-sizing: border-box; }
         body {
@@ -145,231 +146,209 @@
     </style>
 </head>
 <body>
-
-    <div class="slide-container slide-cover">
-        <div class="cover-content">
-            <p style="text-transform: uppercase; letter-spacing: 2px; font-size: 16px; color: #60a5fa; font-weight: bold;">Pesquisa Operacional</p>
-            <h1>Abordagem GRASP para o Problema de Bin Packing</h1>
-            <p style="font-size: 24px; font-weight: 300; margin-top: 10px;">Com Restrições Gerais de Precedência (BPP-GP)</p>
-            
-            <div class="authors">
-                <strong>Autores:</strong><br>
-                Carlos E. Aguiar, Pedro Saccomani, Rangel Á. Barroso<br>
-                <span style="font-size: 16px; margin-top: 5px; display:block;">Universidade Federal de Minas Gerais (UFMG)</span>
-            </div>
-        </div>
-        <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=1000" class="cover-img" alt="Abstract Tech">
-    </div>
-
-    <div class="slide-container">
-        <h2>Contextualização do Problema</h2>
-        <div class="content-area">
-            <div class="layout-split">
-                <div>
-                    <div class="card" style="margin-bottom: 0px;">
-                        <h3>O Cenário Real</h3>
-                        <p style="font-size: 18px"> No desenvolvimento de software moderno, funcionalidades (itens) devem ser alocadas em janelas de entrega (bins). O desafio é respeitar dependências complexas entre os módulos.</p>
-                    </div>
-                    <div class="card">
-                        <h3>Definição Formal (BPP-GP)</h3>
-                         <p style="font-size: 20px">Alocar um conjunto de itens <span class="math">N</span> em caixas <span class="math">M</span> minimizando <span class="math">m</span> (número de caixas), sujeito a:</p>
-                        <ul>
-                            <li style="font-size: 20px"><strong>Capacidade:</strong> Soma dos pesos <span class="math">≤ C</span>.</li>
-                            <li style="font-size: 20px"><strong>Precedência (<span class="math">t<sub>ab</sub></span>):</strong> <span class="math">i<sub>a</sub> - i<sub>b</sub> ≥ t<sub>ab</sub></span>. Dependências que definem a distância mínima entre caixas de itens interdependentes.</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="img-container">
-                    <img src="C:\Users\range\OneDrive\Área de Trabalho\Mestrado\(2025.2) Heuristicas e Metaheuristicas\TP\tp-heuristica-ufmg-2025\imagem_1.png" alt="Gráfico de Contextualização">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="slide-container">
-        <h2>Baseline: Metodologia de Kramer (2017)</h2>
-        <div class="content-area">
-            <div class="layout-split">
-                <div>
-                    <p>O trabalho utiliza como base o estudo de Kramer et al. (2017), que estrutura a solução em três fases para lidar com a complexidade NP-Difícil:</p>
-                    <ul style="margin-top: 30px;">
-                        <li>
-                            <strong>1. Pré-processamento:</strong> <br>
+<div class="slide-container slide-cover">
+<div class="cover-content">
+<p style="text-transform: uppercase; letter-spacing: 2px; font-size: 16px; color: #60a5fa; font-weight: bold;">Pesquisa Operacional</p>
+<h1>Abordagem GRASP para o Problema de Bin Packing</h1>
+<p style="font-size: 24px; font-weight: 300; margin-top: 10px;">Com Restrições Gerais de Precedência (BPP-GP)</p>
+<div class="authors">
+<strong>Autores:</strong><br/>
+                Carlos E. Aguiar, Pedro Saccomani, Rangel Á. Barroso<br/>
+<span style="font-size: 16px; margin-top: 5px; display:block;">Universidade Federal de Minas Gerais (UFMG)</span>
+</div>
+</div>
+<img alt="Abstract Tech" class="cover-img" src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&amp;fit=crop&amp;q=80&amp;w=1000"/>
+</div>
+<div class="slide-container">
+<h2>Contextualização do Problema</h2>
+<div class="content-area">
+<div class="layout-split">
+<div>
+<div class="card" style="margin-bottom: 0px;">
+<h3>O Cenário Real</h3>
+<p style="font-size: 18px"> No desenvolvimento de software moderno, funcionalidades (itens) devem ser alocadas em janelas de entrega (bins). O desafio é respeitar dependências complexas entre os módulos.</p>
+</div>
+<div class="card">
+<h3>Definição Formal (BPP-GP)</h3>
+<p style="font-size: 20px">Alocar um conjunto de itens <span class="math">N</span> em caixas <span class="math">M</span> minimizando <span class="math">m</span> (número de caixas), sujeito a:</p>
+<ul>
+<li style="font-size: 20px"><strong>Capacidade:</strong> Soma dos pesos <span class="math">≤ C</span>.</li>
+<li style="font-size: 20px"><strong>Precedência (<span class="math">t<sub>ab</sub></span>):</strong> <span class="math">i<sub>a</sub> - i<sub>b</sub> ≥ t<sub>ab</sub></span>. Dependências que definem a distância mínima entre caixas de itens interdependentes.</li>
+</ul>
+</div>
+</div>
+<div class="img-container">
+<img alt="Gráfico de Contextualização" src="C:\Users\range\OneDrive\Área de Trabalho\Mestrado\(2025.2) Heuristicas e Metaheuristicas\TP\tp-heuristica-ufmg-2025\imagem_1.png"/>
+</div>
+</div>
+</div>
+</div>
+<div class="slide-container">
+<h2>Baseline: Metodologia de Kramer (2017)</h2>
+<div class="content-area">
+<div class="layout-split">
+<div>
+<p>O trabalho utiliza como base o estudo de Kramer et al. (2017), que estrutura a solução em três fases para lidar com a complexidade NP-Difícil:</p>
+<ul style="margin-top: 10px;">
+<li>
+<strong>1. Pré-processamento:</strong> <br/>
                             Cálculo de Limites Inferiores (<span class="math">LB</span>) baseados na capacidade e no caminho crítico das precedências.
                         </li>
-                        <li>
-                            <strong>2. Solução Inicial:</strong> <br>
-                            Uso de heurísticas construtivas gulosas determinísticas (ex: First Fit, Best Fit).
-                        </li>
-                        <li>
-                            <strong>3. Busca Local (ILS):</strong> <br>
+<li><strong>2. Solução Inicial:</strong> <strong>Uso de heurísticas construtivas gulosas determinísticas (ex: First Fit, Best Fit) </strong> e aproximação do problema programação linear inteira associado</li>
+<li>
+<strong>3. Busca Local (ILS):</strong> <br/>
                             Iterated Local Search com "Batching Moves" para refinamento e escape de ótimos locais.
                         </li>
-                    </ul>
-                </div>
-                <div class="img-container">
-                    <img src="C:\Users\range\OneDrive\Área de Trabalho\Mestrado\(2025.2) Heuristicas e Metaheuristicas\TP\tp-heuristica-ufmg-2025\imagem_2.png" alt="Fluxograma do Baseline">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="slide-container">
-        <h2>A Proposta: Meta-heurística GRASP</h2>
-        <div class="content-area">
-            <div class="layout-full">
-                <p style="margin-bottom: 40px; max-width: 900px;">
+</ul>
+</div>
+<div class="img-container">
+<img alt="Fluxograma do Baseline" src="C:\Users\range\OneDrive\Área de Trabalho\Mestrado\(2025.2) Heuristicas e Metaheuristicas\TP\tp-heuristica-ufmg-2025\imagem_2.png"/>
+</div>
+</div>
+</div>
+</div>
+<div class="slide-container">
+<h2>A Proposta: Meta-heurística GRASP</h2>
+<div class="content-area">
+<div class="layout-full">
+<p style="margin-bottom: 40px; max-width: 900px;">
                     O trabalho substitui a ILS original pelo <strong>GRASP (Greedy Randomized Adaptive Search Procedure)</strong>. O objetivo é introduzir diversidade estocástica na construção das soluções.
                 </p>
-                <div class="layout-cols">
-                    <div class="card">
-                        <h3>Construção Randomizada</h3>
-                        <p>Ao invés de sempre escolher a "melhor" caixa (guloso puro), o algoritmo cria uma Lista de Candidatos Restrita (RCL). A escolha é feita aleatoriamente entre os melhores candidatos, controlada pelo parâmetro <span class="math">α</span>.</p>
-                    </div>
-                    <div class="card">
-                        <h3>O Fator Alpha (<span class="math">α</span>)</h3>
-                        <p>Define o balanço entre <strong>Exploração</strong> (aleatoriedade) e <strong>Intensificação</strong> (guloso).</p>
-                        <ul>
-                            <li><span class="math">α = 0</span>: Puramente aleatório (Random Walk).</li>
-                            <li><span class="math">α = 1</span>: Puramente guloso (Best Fit).</li>
-                            <li><span class="math">Adaptativo</span>: O valor ajusta-se dinamicamente.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="slide-container">
-        <h2>Configuração Experimental (Seção 4.1)</h2>
-        <div class="content-area">
-            <div class="layout-full">
-                <p style="margin-bottom: 5px;">Para garantir reprodutibilidade e comparação justa, foram definidos os seguintes parâmetros de teste baseados nas instâncias de Kramer e Otto:</p>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Parâmetro</th>
-                            <th>Configuração</th>
-                            <th>Justificativa</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Ambiente</strong></td>
-                            <td>Fedora 42, .NET 8.0 (C#)</td>
-                            <td>Plataforma moderna com otimização de memória.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Hardware</strong></td>
-                            <td>Intel Core Ultra 7 258V, 32GB RAM</td>
-                            <td>Processamento de alto desempenho.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Limites</strong></td>
-                            <td>300s (Tempo) / 2500 iter. (Estagnação)</td>
-                            <td>Evitar consumo excessivo em buscas improdutivas.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Seed</strong></td>
-                            <td>42</td>
-                            <td>Garantia de total repetibilidade dos testes estocásticos.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-    <div class="slide-container">
-        <h2>Qualidade das Soluções (Seção 4.2)</h2>
-        <div class="content-area">
-            <div class="layout-split">
-                <div>
-                    <div class="card">
-                        <h3>Desempenho Geral</h3>
-                        <p>O GRASP apresentou um desempenho entre  <strong>19% - 55%</strong> inferior com relação ao Limite Inferior (<span class="math">LB</span>) proposto.</p>
-                    </div>
-                    <div class="card" style="margin-top: 10px">
-                        <h3>Melhor Variante: Alpha One</h3>
-                        <p>A configuração <strong><span class="math">α = 1.0</span></strong> (alpha_one) foi sistematicamente superior. Ela obteve o menor número de caixas (bins) em praticamente todas as 15 instâncias testadas, superando as abordagens adaptativas e puramente aleatórias.</p>
-                    </div>
-                </div>
-                <div class="img-container">
-                    <img src="imagem_3.png" alt="Gráfico de Qualidade das Soluções">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="slide-container">
-        <h2>Sensibilidade do Parâmetro Alpha (Seção 4.3)</h2>
-        <div class="content-area">
-            <div class="layout-split">
-                <div>
-                    <p>A análise do trade-off entre qualidade da solução e tempo de execução revelou padrões claros:</p>
-                    <ul style="margin-top: 20px;">
-                        <li>
-                            <strong><span class="math">α = 1.0</span> (Maior Qualidade):</strong><br>
+<div class="layout-cols">
+<div class="card">
+<h3>Construção Randomizada</h3>
+<p>Ao invés de sempre escolher a "melhor" caixa (guloso puro), o algoritmo cria uma Lista de Candidatos Restrita (RCL). A escolha é feita aleatoriamente entre os melhores candidatos, controlada pelo parâmetro <span class="math">α</span>.</p>
+</div>
+<div class="card">
+<h3>O Fator Alpha (<span class="math">α</span>)</h3>
+<p>Define o balanço entre <strong>Exploração</strong> (aleatoriedade) e <strong>Intensificação</strong> (guloso).</p>
+<ul>
+<li><span class="math">α = 0</span>: Puramente aleatório (Random Walk).</li>
+<li><span class="math">α = 1</span>: Puramente guloso (Best Fit).</li>
+<li><span class="math">Adaptativo</span>: O valor ajusta-se dinamicamente.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="slide-container">
+<h2>Configuração Experimental (Seção 4.1)</h2>
+<div class="content-area">
+<div class="layout-full">
+<p style="margin-bottom: 5px;">Para garantir reprodutibilidade e comparação justa, foram definidos os seguintes parâmetros de teste baseados nas instâncias de Kramer e Otto:</p>
+<table>
+<thead>
+<tr>
+<th>Parâmetro</th>
+<th>Configuração</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Ambiente</strong></td>
+<td>Fedora 42, .NET 8.0 (C#)</td>
+</tr>
+<tr>
+<td><strong>Hardware</strong></td>
+<td>Intel Core Ultra 7 258V, 32GB RAM</td>
+</tr>
+<tr>
+<td><strong>Limites</strong></td>
+<td>300s (Tempo) / 2500 iter. (Estagnação)</td>
+</tr>
+<tr>
+<td><strong>Seed</strong></td>
+<td>42</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="slide-container">
+<h2>Qualidade das Soluções (Seção 4.2)</h2>
+<div class="content-area">
+<div class="layout-split">
+<div>
+<div class="card">
+<h3>Desempenho Geral</h3>
+<p>O GRASP apresentou um desempenho entre  <strong>19% - 55%</strong> inferior com relação ao Limite Inferior (<span class="math">LB</span>) proposto.</p>
+</div>
+<div class="card" style="margin-top: 10px">
+<h3>Melhor Variante: Alpha One</h3>
+<p>A configuração <strong><span class="math">α = 1.0</span></strong> (alpha_one) foi sistematicamente superior. Ela obteve o menor número de caixas (bins) em praticamente todas as 15 instâncias testadas, superando as abordagens adaptativas e puramente aleatórias.</p>
+</div>
+</div>
+<div class="img-container">
+<img alt="Gráfico de Qualidade das Soluções" src="imagem_3.png"/>
+</div>
+</div>
+</div>
+</div>
+<div class="slide-container">
+<h2>Sensibilidade do Parâmetro Alpha (Seção 4.3)</h2>
+<div class="content-area">
+<div class="layout-split">
+<div>
+<p>A análise do trade-off entre qualidade da solução e tempo de execução revelou padrões claros:</p>
+<ul style="margin-top: 20px;">
+<li>
+<strong><span class="math">α = 1.0</span> (Maior Qualidade):</strong><br/>
                             Produz a menor diferença para o LB (média de 8.23). Porém, exige o maior tempo médio (20.76s), indicando uma busca mais profunda.
                         </li>
-                        <li style="margin-top: 20px;">
-                            <strong><span class="math">α = 0.0</span> (Menor Qualidade):</strong><br>
+<li style="margin-top: 20px;">
+<strong><span class="math">α = 0.0</span> (Menor Qualidade):</strong><br/>
                             Executa mais rápido (14.85s), mas tende a estagnar em ótimos locais de pior qualidade (Gap médio de 10.73).
                         </li>
-                    </ul>
-                    <p style="font-size: 18px; margin-top: 20px; color: #64748b;"><em>Conclusão: O viés exploratório compensa o custo computacional extra.</em></p>
-                </div>
-                <div class="img-container">
-                    <img src="imagem_4.jpg" alt="Boxplot de Sensibilidade Alpha">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="slide-container">
-        <h2>Impacto das Heurísticas Construtivas (Seção 4.4)</h2>
-        <div class="content-area">
-            <div class="layout-split">
-                <div>
-                    <p>Foi avaliado se o método inicial de alocação (Best Fit, First Fit ou Aleatório) impactava o resultado final do GRASP.</p>
-                    
-                    <div class="card" style="margin-top: 20px;">
-                        <h3>Convergência de Resultados</h3>
-                        <p>Surpreendentemente, as distribuições foram <strong>quase idênticas</strong>. A mediana e os quartis coincidem para todas as heurísticas.</p>
-                    </div>
-
-                    <p style="margin-top: 20px;"><strong>Interpretação:</strong> A fase de <em>Busca Local</em> domina o comportamento do algoritmo. O refinamento é poderoso o suficiente para corrigir qualquer ineficiência da construção inicial, levando ao mesmo mínimo local.</p>
-                </div>
-                <div class="img-container">
-                    <img src="imagem_5.jpg" alt="Comparação de Heurísticas Construtivas">
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="slide-container">
-        <h2>Conclusões e Trabalhos Futuros</h2>
-        <div class="content-area">
-            <div class="layout-cols">
-                <div>
-                    <h3>Principais Achados</h3>
-                    <ul>
-                        <li>O <strong>GRASP</strong> provou ser uma abordagem robusta para o BPP-GP.</li>
-                        <li>A configuração <strong><span class="math">α = 1.0</span></strong> oferece o melhor equilíbrio, priorizando a qualidade da solução apesar do maior custo temporal.</li>
-                        <li>A etapa de <strong>Refinamento</strong> é crítica, equalizando o desempenho independente da heurística inicial.</li>
-                    </ul>
-                </div>
-                <div>
-                    <h3>Limitações e Futuro</h3>
-                    <ul>
-                        <li><strong>Limitação:</strong> Testes restritos a 15 instâncias devido ao tempo computacional. Impossibilidade de comparação direta com o código original do baseline (não disponibilizado).</li>
-                        <li><strong>Próximos Passos:</strong> Ampliar o conjunto de testes para instâncias de escala industrial e maior diversidade estrutural.</li>
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
+</ul>
+<p style="font-size: 18px; margin-top: 20px; color: #64748b;"><em>Conclusão: O viés exploratório compensa o custo computacional extra.</em></p>
+</div>
+<div class="img-container">
+<img alt="Boxplot de Sensibilidade Alpha" src="imagem_4.jpg"/>
+</div>
+</div>
+</div>
+</div>
+<div class="slide-container">
+<h2>Impacto das Heurísticas Construtivas (Seção 4.4)</h2>
+<div class="content-area">
+<div class="layout-split">
+<div>
+<p>Foi avaliado se o método inicial de alocação (Best Fit, First Fit ou Aleatório) impactava o resultado final do GRASP.</p>
+<div class="card" style="margin-top: 20px;">
+<h3>Convergência de Resultados</h3>
+<p>Surpreendentemente, as distribuições foram <strong>quase idênticas</strong>. A mediana e os quartis coincidem para todas as heurísticas.</p>
+</div>
+<p style="margin-top: 20px;"><strong>Interpretação:</strong> A fase de <em>Busca Local</em> domina o comportamento do algoritmo. O refinamento é poderoso o suficiente para corrigir qualquer ineficiência da construção inicial, levando ao mesmo mínimo local.</p>
+</div>
+<div class="img-container">
+<img alt="Comparação de Heurísticas Construtivas" src="imagem_5.jpg"/>
+</div>
+</div>
+</div>
+</div>
+<div class="slide-container">
+<h2>Conclusões e Trabalhos Futuros</h2>
+<div class="content-area">
+<div class="layout-cols">
+<div>
+<h3>Principais Achados</h3>
+<ul>
+<li>O <strong>GRASP</strong> provou ser uma abordagem robusta para o BPP-GP.</li>
+<li>A configuração <strong><span class="math">α = 1.0</span></strong> oferece o melhor equilíbrio, priorizando a qualidade da solução apesar do maior custo temporal.</li>
+<li>A etapa de <strong>Refinamento</strong> é crítica, equalizando o desempenho independente da heurística inicial.</li>
+</ul>
+</div>
+<div>
+<h3>Limitações e Futuro</h3>
+<ul>
+<li><strong>Limitação:</strong> Testes restritos a 15 instâncias devido ao tempo computacional. Impossibilidade de comparação direta com o código original do baseline (não disponibilizado).</li>
+<li><strong>Próximos Passos:</strong> Ampliar o conjunto de testes para instâncias de escala industrial e maior diversidade estrutural.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
 </body>
 </html>
